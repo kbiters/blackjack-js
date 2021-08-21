@@ -1,3 +1,9 @@
+let cardsSelectedHiddenDealer = document.createElement('IMG');
+let cardListHiddenDealer;
+
+let cardsSelectedHiddenDealerNEW = document.createElement('IMG');
+
+
 // Player Model
 class Person {
 
@@ -28,6 +34,7 @@ class Person {
         });
         return score;
     }
+
 
     get history() {
         return this._history;
@@ -109,30 +116,57 @@ class GameModel {
 function start() {
     let gameModel;
 
+
     initial();
 
     let restart = document.getElementById("restartButton");
-    restart.addEventListener("click", initial)
+    restart.addEventListener("click", initial);
 
     let hit = document.getElementById("hitButton");
     hit.addEventListener("click", (() => {
-        if (!gameModel.player.active) { return }
-        gameModel.player.hand.push(gameModel.deck.pop());
+        if (!gameModel.player.active) {
+            return
+        }
+
+        let gg = gameModel.deck.pop();
+        gameModel.player.hand.push(gg);
+
+        let cardsSelectedPlayerNEW = document.createElement('IMG');
+        cardsSelectedPlayerNEW.src = `img/cards/${gg.k}.png`;
+        cardListPlayer = document.querySelector('.cards-list-player');
+        cardListPlayer.appendChild(cardsSelectedPlayerNEW);
+
+        validateLose(gameModel);
         showHandsPlayers();
-        validateLose();
 
     }));
 
     let stand = document.getElementById("standButton");
     stand.addEventListener("click", (() => {
-        if (!gameModel.player.active) { return }
+        if (!gameModel.player.active) {
+            return
+        }
         gameModel.player.active = false;
-        gameModel.dealer.hand.push(gameModel.dealer.hiddenCard.pop());
 
-        for (let i = 0; i < gameModel.deck.length; i++){
-            if(gameModel.dealer.score < gameModel.player.score){
-                gameModel.dealer.hand.push(gameModel.deck.pop());
-            }else{
+        gameModel.dealer.hiddenCard.forEach(card => {
+            cardsSelectedHiddenDealerNEW.src = `img/cards/${card.k}.png`;
+            cardListHiddenDealer = document.querySelector('.cards-list-dealer')
+            cardListHiddenDealer.replaceChild(cardsSelectedHiddenDealerNEW, cardsSelectedHiddenDealer)
+        });
+
+        let ggg = gameModel.dealer.hiddenCard.pop();
+        gameModel.dealer.hand.push(ggg);
+
+        for (let i = 0; i < gameModel.deck.length; i++) {
+            if (gameModel.dealer.score < gameModel.player.score) {
+                let gggg = gameModel.deck.pop();
+                gameModel.dealer.hand.push(gggg);
+                let cardsSelectedDealerNEW = document.createElement('IMG');
+                cardsSelectedDealerNEW.src = `img/cards/${gggg.k}.png`;
+                cardListHiddenDealer = document.querySelector('.cards-list-dealer');
+                cardListHiddenDealer.appendChild(cardsSelectedDealerNEW);
+
+            } else {
                 break;
             }
         }
@@ -141,26 +175,34 @@ function start() {
         validatePersonWin();
     }));
 
-    function validatePersonWin(){
-        if (gameModel.dealer.score >= gameModel.player.score && gameModel.dealer.score <= 21){
-            setText("result","gano el dealer")
-        }else{
-            setText("result","gano el player")
+    function validatePersonWin() {
+        if (gameModel.dealer.score >= gameModel.player.score && gameModel.dealer.score <= 21) {
+            setText("result", "The winner is the DEALER!")
+        } else {
+            setText("result", "The winner is the PLAYER!")
         }
     }
 
     function validateLose() {
-        if (gameModel.player.score > 21){
-            setText("result","perdio el player")
+        if (gameModel.player.score > 21) {
+            setText("result", "The winner is the DEALER!");
+
             gameModel.player.active = false;
+            gameModel.dealer.hiddenCard.forEach(card => {
+                cardsSelectedHiddenDealerNEW.src = `img/cards/${card.k}.png`;
+                cardListHiddenDealer = document.querySelector('.cards-list-dealer')
+                cardListHiddenDealer.replaceChild(cardsSelectedHiddenDealerNEW, cardsSelectedHiddenDealer)
+            });
         } else {
-            setText("result","...")
+            setText("result", "Playing...");
         }
     }
 
     function showHandsPlayers() {
+        // console.log(gameModel.player.hand)
         setText("scorePlayer", gameModel.player.score)
         setText("scoreDealer", gameModel.dealer.score)
+
     }
 
     function initial() {
@@ -168,10 +210,36 @@ function start() {
         gameModel.shuffle(4);
         gameModel.dealInitialCards();
         showHandsPlayers();
-        setText("result","...");
+        setText("result", "Playing...");
+
+
+        let cardsSelectedDealer = document.createElement('IMG')
+        cardsSelectedDealer.src = `img/cards/${gameModel.dealer.hand[0].k}.png`;
+
+        let cardListDealer = document.querySelector('.cards-list-dealer')
+        cardListDealer.appendChild(cardsSelectedDealer)
+
+        gameModel.dealer.hiddenCard.forEach(card => {
+            cardsSelectedHiddenDealer.src = `img/hidden-cards/hidden.png`;
+
+            cardListHiddenDealer = document.querySelector('.cards-list-dealer')
+            cardListHiddenDealer.appendChild(cardsSelectedHiddenDealer)
+        });
+
+        gameModel.player.hand.forEach(card => {
+            let cardsSelectedPlayer = document.createElement('IMG')
+            cardsSelectedPlayer.src = `img/cards/${card.k}.png`;
+
+            let cardListPlayer = document.querySelector('.cards-list-player')
+            cardListPlayer.appendChild(cardsSelectedPlayer)
+        });
+
+
     }
 }
 
 function setText(id, text) {
     document.getElementById(id).innerHTML = text;
 }
+
+
