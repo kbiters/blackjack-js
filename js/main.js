@@ -3,6 +3,8 @@ let historyDealer = {win: 0, lose: 0};
 
 let hiddenCard;
 
+let playerBalance = 0;
+
 // Player Model
 class Person {
 
@@ -11,6 +13,7 @@ class Person {
         this._hand = [];
         this._hiddenCard = [];
         this._active = true;
+        this._balance = 0;
     }
 
     get hand() {
@@ -73,6 +76,15 @@ class Person {
     hit(deck) {
         this._hand.push(deck.pop());
     }
+
+
+    get balance() {
+        return this._balance;
+    }
+
+    set balance(value) {
+        this._balance = value;
+    }
 }
 
 class GameModel {
@@ -129,7 +141,7 @@ class GameModel {
 function start() {
     let gameModel;
 
-    initial()
+    initial(false);
 
     let restart = document.getElementById("restartButton");
     restart.addEventListener("click", initial);
@@ -178,25 +190,34 @@ function start() {
     }));
 
 
-    function initial() {
+    function initial(reset = true) {
 
         gameModel = new GameModel();
         gameModel.shuffle(4);
         gameModel.dealInitialCards();
 
-        setText("result", "Playing...");
-        cardVisualizer(gameModel.player, false, true)
-        cardVisualizer(gameModel.dealer)
-        cardVisualizer(gameModel.dealer, true)
+        gameModel.dealer.balance = 999999;
 
-        if (gameModel.player.score === 21) {
-            checkResult(true)
+        if (!reset) {
+            let balance = prompt("Enter the balance you wish to bet");
+            playerBalance = Number(balance);
         }
 
-        setText("winDealer", `Win: ${historyDealer.win}`)
-        setText("loseDealer", `Lose: ${historyDealer.lose}`)
-        setText("winPlayer", `Win: ${historyPlayer.win}`)
-        setText("losePlayer", `Lose: ${historyPlayer.lose}`)
+        setText("result", "Playing...");
+        cardVisualizer(gameModel.player, false, true);
+        cardVisualizer(gameModel.dealer);
+        cardVisualizer(gameModel.dealer, true);
+
+        if (gameModel.player.score === 21) {
+            checkResult(true);
+        }
+
+        setText("winDealer", `Win: ${historyDealer.win}`);
+        setText("loseDealer", `Lose: ${historyDealer.lose}`);
+        setText("winPlayer", `Win: ${historyPlayer.win}`);
+        setText("losePlayer", `Lose: ${historyPlayer.lose}`);
+        setText("dealerBalance", `Win: ${gameModel.dealer.balance}`);
+        setText("playerBalance", `Lose: ${playerBalance}`);
         showScore();
 
 
