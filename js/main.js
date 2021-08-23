@@ -216,8 +216,8 @@ function start() {
         setText("loseDealer", `Lose: ${historyDealer.lose}`);
         setText("winPlayer", `Win: ${historyPlayer.win}`);
         setText("losePlayer", `Lose: ${historyPlayer.lose}`);
-        setText("dealerBalance", `Win: ${gameModel.dealer.balance}`);
-        setText("playerBalance", `Lose: ${playerBalance}`);
+        setText("dealerBalance", `Balance: ${gameModel.dealer.balance}`);
+        setText("playerBalance", `Balance: ${playerBalance}`);
         showScore();
 
 
