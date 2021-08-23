@@ -215,12 +215,7 @@ function start() {
             checkResult(true);
         }
 
-        setText("winDealer", `Win: ${historyDealer.win}`);
-        setText("loseDealer", `Lose: ${historyDealer.lose}`);
-        setText("winPlayer", `Win: ${historyPlayer.win}`);
-        setText("losePlayer", `Lose: ${historyPlayer.lose}`);
-        setText("dealerBalance", `Balance: ${gameModel.dealer.balance} $`);
-        setText("playerBalance", `Balance: ${playerBalance} $`);
+
         showScore();
     }
 
@@ -233,11 +228,11 @@ function start() {
             hiddenCard = gameModel.dealer.hiddenCard.pop()
             gameModel.dealer.hand.push(hiddenCard)
             cardVisualizer(gameModel.dealer)
-            showScore()
             historyPlayer.win += 1;
             historyDealer.lose += 1;
             winBet(false, true);
             setText("result", "<img src=\"img/blackjack.png\">");
+            showScore()
             return
         }
 
@@ -253,7 +248,7 @@ function start() {
             hiddenCard = gameModel.dealer.hiddenCard.pop();
             gameModel.dealer.hand.push(hiddenCard);
             cardVisualizer(gameModel.dealer);
-            showScore();
+
         }
 
 
@@ -264,11 +259,13 @@ function start() {
                 historyDealer.win += 1;
                 historyPlayer.lose += 1;
                 winBet(true, false);
+                showScore();
             } else {
                 setText("result", "The winner is the PLAYER!")
                 historyPlayer.win += 1;
                 historyDealer.lose += 1;
                 winBet(false, false);
+                showScore();
             }
 
         }
@@ -338,6 +335,12 @@ function start() {
     function showScore() {
         setText("scorePlayer", gameModel.player.score)
         setText("scoreDealer", gameModel.dealer.score)
+        setText("winDealer", `Win: ${historyDealer.win}`);
+        setText("loseDealer", `Lose: ${historyDealer.lose}`);
+        setText("winPlayer", `Win: ${historyPlayer.win}`);
+        setText("losePlayer", `Lose: ${historyPlayer.lose}`);
+        setText("dealerBalance", `Balance: ${gameModel.dealer.balance} $`);
+        setText("playerBalance", `Balance: ${playerBalance} $`);
     }
 }
 
