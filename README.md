@@ -15,9 +15,16 @@
     </p>
 </p>
 
-![Contributors](https://img.shields.io/github/contributors/kbiters/blackjack-js?color=dark-green)  ![Issues](https://img.shields.io/github/issues/kbiters/blackjack-js)
-
-![Forks](https://img.shields.io/github/forks/kbiters/blackjack-js?style=social) ![Stargazers](https://img.shields.io/github/stars/kbiters/blackjack-js?style=social)
+<p align="center">
+    <img src="https://img.shields.io/github/contributors/kbiters/blackjack-js?color=dark-green" />
+    <img src="https://img.shields.io/github/issues/kbiters/blackjack-js" />
+    <img src="https://badges.pufler.dev/visits/kbiters/blackjack-js" />
+    <img src="https://badges.pufler.dev/updated/kbiters/blackjack-js" />
+    <br/>
+    <img src="https://img.shields.io/github/forks/kbiters/blackjack-js?style=social" />
+    <img src="https://img.shields.io/github/stars/kbiters/blackjack-js?style=social" />
+</p>
+    
 ## Table Of Contents
 
 * [Preview](#preview)
