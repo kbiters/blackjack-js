@@ -15,7 +15,8 @@
     </p>
 </p>
 
-![Downloads](https://img.shields.io/github/downloads/kbiters/blackjack-js/total) ![Contributors](https://img.shields.io/github/contributors/kbiters/blackjack-js?color=dark-green)  ![Issues](https://img.shields.io/github/issues/kbiters/blackjack-js)
+![Contributors](https://img.shields.io/github/contributors/kbiters/blackjack-js?color=dark-green)  ![Issues](https://img.shields.io/github/issues/kbiters/blackjack-js)
+
 ![Forks](https://img.shields.io/github/forks/kbiters/blackjack-js?style=social) ![Stargazers](https://img.shields.io/github/stars/kbiters/blackjack-js?style=social)
 ## Table Of Contents
 
