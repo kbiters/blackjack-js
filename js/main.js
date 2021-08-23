@@ -1,16 +1,16 @@
+let historyPlayer = {win: 0, lose: 0};
+let historyDealer = {win: 0, lose: 0};
+
+let hiddenCard;
+
 // Player Model
 class Person {
 
     // Constructor
     constructor() {
         this._hand = [];
-        this._history = [];
         this._hiddenCard = [];
         this._active = true;
-    }
-
-    hit(deck) {
-        this._hand.push(deck.pop());
     }
 
     get hand() {
@@ -23,20 +23,36 @@ class Person {
 
     get score() {
         let score = 0;
+        let aceCounter = []
+
         this.hand.forEach(card => {
-            return score += card.v
+
+            score += card.v;
+            if (card.v === 11) {
+                aceCounter.push(true)
+            }
+
+            return score;
         });
+
+        if (score > 21) {
+            switch (aceCounter.length) {
+                case 1:
+                    score -= 10
+                    break;
+                case 2:
+                    score -= 20
+                    break;
+                case 3:
+                    score -= 30
+                    break;
+                case 4:
+                    score -= 40
+                    break;
+            }
+        }
         return score;
     }
-
-    get history() {
-        return this._history;
-    }
-
-    set history(value) {
-        this._history = value;
-    }
-
 
     get hiddenCard() {
         return this._hiddenCard;
@@ -52,6 +68,10 @@ class Person {
 
     set active(value) {
         this._active = value;
+    }
+
+    hit(deck) {
+        this._hand.push(deck.pop());
     }
 }
 
@@ -109,66 +129,174 @@ class GameModel {
 function start() {
     let gameModel;
 
-    initial();
+    initial()
 
     let restart = document.getElementById("restartButton");
-    restart.addEventListener("click", initial)
+    restart.addEventListener("click", initial);
 
     let hit = document.getElementById("hitButton");
     hit.addEventListener("click", (() => {
-        if (!gameModel.player.active) { return }
-        gameModel.player.hand.push(gameModel.deck.pop());
-        showHandsPlayers();
-        validateLose();
+        if (!gameModel.player.active) {
+            return
+        }
+
+        let card = gameModel.deck.pop();
+        gameModel.player.hand.push(card);
+
+        cardVisualizer(gameModel.player);
+        checkResult();
+        showScore();
 
     }));
 
     let stand = document.getElementById("standButton");
     stand.addEventListener("click", (() => {
-        if (!gameModel.player.active) { return }
-        gameModel.player.active = false;
-        gameModel.dealer.hand.push(gameModel.dealer.hiddenCard.pop());
 
-        for (let i = 0; i < gameModel.deck.length; i++){
-            if(gameModel.dealer.score < gameModel.player.score){
-                gameModel.dealer.hand.push(gameModel.deck.pop());
-            }else{
+        if (!gameModel.player.active) {
+            return
+        }
+
+        gameModel.player.active = false;
+
+        hiddenCard = gameModel.dealer.hiddenCard.pop();
+        gameModel.dealer.hand.push(hiddenCard);
+
+        // DEALER PRETEND WIN
+        for (let i = 0; i < gameModel.deck.length; i++) {
+            if (gameModel.dealer.score < gameModel.player.score) {
+                let card = gameModel.deck.pop()
+                gameModel.dealer.hand.push(card);
+            } else {
                 break;
             }
         }
 
-        showHandsPlayers();
-        validatePersonWin();
+        cardVisualizer(gameModel.dealer);
+        checkResult();
+        showScore();
+
     }));
 
-    function validatePersonWin(){
-        if (gameModel.dealer.score >= gameModel.player.score && gameModel.dealer.score <= 21){
-            setText("result","gano el dealer")
-        }else{
-            setText("result","gano el player")
+
+    function initial() {
+
+        gameModel = new GameModel();
+        gameModel.shuffle(4);
+        gameModel.dealInitialCards();
+
+        setText("result", "Playing...");
+        cardVisualizer(gameModel.player, false, true)
+        cardVisualizer(gameModel.dealer)
+        cardVisualizer(gameModel.dealer, true)
+
+        if (gameModel.player.score === 21) {
+            checkResult(true)
         }
+
+        setText("winDealer", `Win: ${historyDealer.win}`)
+        setText("loseDealer", `Lose: ${historyDealer.lose}`)
+        setText("winPlayer", `Win: ${historyPlayer.win}`)
+        setText("losePlayer", `Lose: ${historyPlayer.lose}`)
+        showScore();
+
+
     }
 
-    function validateLose() {
-        if (gameModel.player.score > 21){
-            setText("result","perdio el player")
+
+    function checkResult(blackjack = false) {
+        let dealerWin = false;
+
+        if (blackjack) {
             gameModel.player.active = false;
-        } else {
-            setText("result","...")
+            hiddenCard = gameModel.dealer.hiddenCard.pop()
+            gameModel.dealer.hand.push(hiddenCard)
+            cardVisualizer(gameModel.dealer)
+            showScore()
+            historyPlayer.win += 1;
+            historyDealer.lose += 1;
+            setText("result", "BLACKJACK")
+            return
         }
+
+
+        // DEALER WIN
+        if (gameModel.dealer.score >= gameModel.player.score && gameModel.dealer.score <= 21) {
+            dealerWin = true;
+        }
+
+        if (gameModel.player.score > 21) {
+            dealerWin = true;
+            gameModel.player.active = false;
+            hiddenCard = gameModel.dealer.hiddenCard.pop()
+            gameModel.dealer.hand.push(hiddenCard)
+            cardVisualizer(gameModel.dealer)
+            showScore()
+        }
+
+
+        // SHOW TEXT
+        if (!(gameModel.player.active)) {
+            if (dealerWin) {
+                setText("result", "The winner is the DEALER!")
+                historyDealer.win += 1;
+                historyPlayer.lose += 1;
+            } else {
+                setText("result", "The winner is the PLAYER!")
+                historyPlayer.win += 1;
+                historyDealer.lose += 1;
+            }
+
+        }
+
+
     }
 
-    function showHandsPlayers() {
+    function showScore() {
         setText("scorePlayer", gameModel.player.score)
         setText("scoreDealer", gameModel.dealer.score)
     }
 
-    function initial() {
-        gameModel = new GameModel();
-        gameModel.shuffle(4);
-        gameModel.dealInitialCards();
-        showHandsPlayers();
-        setText("result","...");
+    function cardVisualizer(entity, hidden = false, reset = false) {
+
+        // Get html div
+        let dealerSelector = document.querySelector('.cards-list-dealer');
+        let playerSelector = document.querySelector('.cards-list-player');
+
+        // Clear querySelector
+        if (reset) {
+            dealerSelector.innerHTML = '';
+            playerSelector.innerHTML = '';
+        }
+
+
+        // Create image element
+        let entityElement = document.createElement('img');
+        entityElement.src = `img/hidden-cards/hidden.png`
+
+        // Show Cards for entity
+        if (!(hidden)) {
+
+            if (entity === gameModel.player) {
+                playerSelector.innerHTML = '';
+            }
+            if (entity === gameModel.dealer) {
+                dealerSelector.innerHTML = '';
+            }
+            entity.hand.forEach(card => {
+                let entityElement = document.createElement('img');
+                entityElement.src = `img/cards/${card.k}.png`
+
+                if (entity === gameModel.player) {
+                    playerSelector.appendChild(entityElement)
+                } else {
+
+                    dealerSelector.appendChild(entityElement)
+                }
+            });
+
+        } else {
+            dealerSelector.appendChild(entityElement)
+        }
     }
 }
 

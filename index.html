@@ -1,30 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Kbiter-BlackJack</title>
     <script src="js/main.js"></script>
-</head>
-<body>
+    <link rel="stylesheet" href="css/style.css" />
 
-<script>
-    window.onload = (() => { start() });
-</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chathura&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <script>
+      window.onload = () => {
+        start();
+      };
+    </script>
 
-<label>DEALER: </label>
-<label id="scoreDealer"></label>
+    <section class="section">
+      <div class="dealer">
+        <label class="title">DEALER: </label>
+        <label class="title" id="scoreDealer"></label>
+      </div>
 
-</br>
 
-<label>PLAYER: </label>
-<label id="scorePlayer"></label>
-<br><br><br>
-<button id="restartButton" >RESTART</button>
-<button id="hitButton" >HIT</button>
-<button id="standButton" >STAND</button>
+      <div class="login-box" id="restartButton">
+        <form>
+          <a href="#">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Restart
+          </a>
+        </form>
+      </div>
 
-<br><br><br>
-<label id="result"></label>
+      <div class="login-box" id="hitButton">
+        <form>
+          <a href="#">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Hit
+          </a>
+        </form>
+      </div>
 
-</body>
+      <div class="login-box" id="standButton">
+        <form>
+          <a href="#">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Stand
+          </a>
+        </form>
+      </div>
+
+
+
+      <div class="player">
+        <label class="title">PLAYER: </label>
+        <label class="title" id="scorePlayer"></label>
+      </div>
+    </section>
+    <div>
+      <label class="title">History Dealer: </label>
+      <label class="title" id="winDealer"></label>
+      <label class="title" id="loseDealer"></label>
+    </div>
+    <div>
+      <label class="title">History Player: </label>
+      <label class="title" id="winPlayer"></label>
+      <label class="title" id="losePlayer"></label>
+    </div>
+    <div class="title">
+      <label class="title" id="result"></label>
+    </div>
+
+    <div class="cards-section">
+      <div class="cards-list-dealer"></div>
+
+      <div class="cards-list-player"></div>
+    </div>
+  </body>
 </html>
