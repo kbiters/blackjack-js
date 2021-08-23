@@ -146,7 +146,11 @@ function start() {
 
     // Event RESTART
     let restart = document.getElementById("restartButton");
-    restart.addEventListener("click", initial);
+    restart.addEventListener("click", (() => {
+        if (!gameModel.player.active){
+            initial();
+        }
+    }));
 
     // Event HIT
     let hit = document.getElementById("hitButton");
