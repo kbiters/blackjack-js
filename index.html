@@ -15,6 +15,17 @@
   </head>
   <body>
     <script>
+      // Prevent Right Click
+      document.addEventListener('contextmenu', function (e) {
+        e.preventDefault();
+      });
+
+      // Prevent F12
+      document.onkeydown = function (e) {
+        return false;
+      };
+
+      // Load function start
       window.onload = () => {
         start();
       };
