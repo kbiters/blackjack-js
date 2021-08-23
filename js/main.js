@@ -74,11 +74,6 @@ class Person {
         this._active = value;
     }
 
-    hit(deck) {
-        this._hand.push(deck.pop());
-    }
-
-
     get balance() {
         return this._balance;
     }
@@ -324,7 +319,7 @@ function start() {
     }
 
     // Adding and subtracting balance
-    function winBet(dealerWin = False, blackjack = false){
+    function winBet(dealerWin = false, blackjack = false){
         if (blackjack){
             gameModel.dealer.balance -= bet * 1.5;
             playerBalance += bet * 1.5;
