@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Kbiter-BlackJack</title>
+    <script src="js/main.js"></script>
+    <link rel="stylesheet" href="css/style.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chathura&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <script>
+      // Prevent Right Click
+      document.addEventListener('contextmenu', function (e) {
+        e.preventDefault();
+      });
+
+      // Prevent F12
+      document.onkeydown = function (e) {
+        return false;
+      };
+
+      // Load function start
+      window.onload = () => {
+        start();
+      };
+    </script>
+
+    <section class="section">
+      <div class="dealer">
+        <label class="title">DEALER: </label>
+        <label class="title" id="scoreDealer"></label>
+      </div>
+
+      <div class="login-box" id="restartButton">
+        <form>
+          <a href="#">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Restart
+          </a>
+        </form>
+      </div>
+
+      <div class="login-box" id="hitButton">
+        <form>
+          <a href="#">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Hit
+          </a>
+        </form>
+      </div>
+
+      <div class="login-box" id="standButton">
+        <form>
+          <a href="#">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Stand
+          </a>
+        </form>
+      </div>
+
+      <div class="player">
+        <label class="title">PLAYER: </label>
+        <label class="title" id="scorePlayer"></label>
+      </div>
+    </section>
+
+    <section class="score">
+      <div>
+        <label class="title">History Dealer: </label>
+
+        <div>
+          <label class="title" id="winDealer"></label>
+        </div>
+        <div>
+          <label class="title" id="loseDealer"></label>
+        </div>
+        <div>
+          <label class="title" id="dealerBalance"></label>
+        </div>
+      </div>
+
+      <div>
+        <label class="title playing" id="result"></label>
+      </div>
+
+      <div>
+        <label class="title">History Player: </label>
+        <div>
+          <label class="title" id="winPlayer"></label>
+        </div>
+        <div>
+          <label class="title" id="losePlayer"></label>
+        </div>
+        <div>
+          <label class="title" id="playerBalance"></label>
+        </div>
+      </div>
+    </section>
+
+    <div class="cards-section">
+      <div class="cards-list-dealer"></div>
+
+      <div class="cards-list-player"></div>
+    </div>
+  </body>
+</html>
