@@ -45,13 +45,22 @@ class Person {
                     score -= 10
                     break;
                 case 2:
-                    score -= 20
+                    score -= 10
+                    if (score > 21){
+                        score -= 10;
+                    }
                     break;
                 case 3:
-                    score -= 30
+                    score -= 20
+                    if (score > 21){
+                        score -= 10;
+                    }
                     break;
                 case 4:
-                    score -= 40
+                    score -= 30
+                    if (score > 21){
+                        score -= 10;
+                    }
                     break;
             }
         }
