@@ -3,6 +3,9 @@ let historyDealer = {win: 0, lose: 0};
 
 let hiddenCard;
 
+let playerBalance = 0;
+const bet = 100;
+
 // Player Model
 class Person {
 
@@ -11,6 +14,7 @@ class Person {
         this._hand = [];
         this._hiddenCard = [];
         this._active = true;
+        this._balance = 0;
     }
 
     get hand() {
@@ -73,6 +77,15 @@ class Person {
     hit(deck) {
         this._hand.push(deck.pop());
     }
+
+
+    get balance() {
+        return this._balance;
+    }
+
+    set balance(value) {
+        this._balance = value;
+    }
 }
 
 class GameModel {
@@ -129,11 +142,13 @@ class GameModel {
 function start() {
     let gameModel;
 
-    initial()
+    initial(false);
 
+    // Event RESTART
     let restart = document.getElementById("restartButton");
     restart.addEventListener("click", initial);
 
+    // Event HIT
     let hit = document.getElementById("hitButton");
     hit.addEventListener("click", (() => {
         if (!gameModel.player.active) {
@@ -149,6 +164,7 @@ function start() {
 
     }));
 
+    // Event STAND
     let stand = document.getElementById("standButton");
     stand.addEventListener("click", (() => {
 
@@ -178,28 +194,35 @@ function start() {
     }));
 
 
-    function initial() {
+    function initial(reset = true) {
 
         gameModel = new GameModel();
         gameModel.shuffle(4);
         gameModel.dealInitialCards();
 
-        setText("result", "Playing...");
-        cardVisualizer(gameModel.player, false, true)
-        cardVisualizer(gameModel.dealer)
-        cardVisualizer(gameModel.dealer, true)
+        gameModel.dealer.balance = 999999;
 
-        if (gameModel.player.score === 21) {
-            checkResult(true)
+        if (!reset) {
+            let balance = prompt("Enter the balance you wish to bet, consider that each bet will be $100.");
+            playerBalance = Number(balance);
         }
 
-        setText("winDealer", `Win: ${historyDealer.win}`)
-        setText("loseDealer", `Lose: ${historyDealer.lose}`)
-        setText("winPlayer", `Win: ${historyPlayer.win}`)
-        setText("losePlayer", `Lose: ${historyPlayer.lose}`)
+        setText("result", "Playing...");
+        cardVisualizer(gameModel.player, false, true);
+        cardVisualizer(gameModel.dealer);
+        cardVisualizer(gameModel.dealer, true);
+
+        if (gameModel.player.score === 21) {
+            checkResult(true);
+        }
+
+        setText("winDealer", `Win: ${historyDealer.win}`);
+        setText("loseDealer", `Lose: ${historyDealer.lose}`);
+        setText("winPlayer", `Win: ${historyPlayer.win}`);
+        setText("losePlayer", `Lose: ${historyPlayer.lose}`);
+        setText("dealerBalance", `Balance: ${gameModel.dealer.balance} $`);
+        setText("playerBalance", `Balance: ${playerBalance} $`);
         showScore();
-
-
     }
 
 
@@ -214,7 +237,8 @@ function start() {
             showScore()
             historyPlayer.win += 1;
             historyDealer.lose += 1;
-            setText("result", "BLACKJACK")
+            winBet(false, true);
+            setText("result", "<img src=\"img/blackjack.png\">");
             return
         }
 
@@ -227,10 +251,10 @@ function start() {
         if (gameModel.player.score > 21) {
             dealerWin = true;
             gameModel.player.active = false;
-            hiddenCard = gameModel.dealer.hiddenCard.pop()
-            gameModel.dealer.hand.push(hiddenCard)
-            cardVisualizer(gameModel.dealer)
-            showScore()
+            hiddenCard = gameModel.dealer.hiddenCard.pop();
+            gameModel.dealer.hand.push(hiddenCard);
+            cardVisualizer(gameModel.dealer);
+            showScore();
         }
 
 
@@ -240,22 +264,18 @@ function start() {
                 setText("result", "The winner is the DEALER!")
                 historyDealer.win += 1;
                 historyPlayer.lose += 1;
+                winBet(true, false);
             } else {
                 setText("result", "The winner is the PLAYER!")
                 historyPlayer.win += 1;
                 historyDealer.lose += 1;
+                winBet(false, false);
             }
 
         }
-
-
     }
 
-    function showScore() {
-        setText("scorePlayer", gameModel.player.score)
-        setText("scoreDealer", gameModel.dealer.score)
-    }
-
+    // Render Cards
     function cardVisualizer(entity, hidden = false, reset = false) {
 
         // Get html div
@@ -297,6 +317,28 @@ function start() {
         } else {
             dealerSelector.appendChild(entityElement)
         }
+    }
+
+    // Adding and subtracting balance
+    function winBet(dealerWin = False, blackjack = false){
+        if (blackjack){
+            gameModel.dealer.balance -= bet * 1.5;
+            playerBalance += bet * 1.5;
+        }else{
+            if (dealerWin){
+                gameModel.dealer.balance += bet;
+                playerBalance -= bet;
+            }else{
+                gameModel.dealer.balance -= bet;
+                playerBalance += bet;
+            }
+
+        }
+    }
+
+    function showScore() {
+        setText("scorePlayer", gameModel.player.score)
+        setText("scoreDealer", gameModel.dealer.score)
     }
 }
 
