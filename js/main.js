@@ -255,13 +255,13 @@ function start() {
         // SHOW TEXT
         if (!(gameModel.player.active)) {
             if (dealerWin) {
-                setText("result", "The winner is the DEALER!")
+                setText("result", "The DEALER won this round!")
                 historyDealer.win += 1;
                 historyPlayer.lose += 1;
                 winBet(true, false);
                 showScore();
             } else {
-                setText("result", "The winner is the PLAYER!")
+                setText("result", "The PLAYER won this round!")
                 historyPlayer.win += 1;
                 historyDealer.lose += 1;
                 winBet(false, false);
