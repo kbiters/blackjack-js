@@ -187,7 +187,7 @@ function start() {
 
         // DEALER PRETEND WIN
         for (let i = 0; i < gameModel.deck.length; i++) {
-            if (gameModel.dealer.score < gameModel.player.score) {
+            if (gameModel.dealer.score <= 16 || gameModel.dealer.score < gameModel.player.score) {
                 let card = gameModel.deck.pop()
                 gameModel.dealer.hand.push(card);
             } else {
