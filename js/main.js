@@ -201,6 +201,9 @@ function start() {
 
         if (!reset) {
             let balance = prompt("Enter the balance you wish to bet, consider that each bet will be $100.");
+            if (isNaN(Number(balance))){
+                balance = 0;
+            }
             playerBalance = Number(balance);
         }
 
