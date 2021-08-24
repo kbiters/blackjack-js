@@ -45,19 +45,19 @@ class Person {
                     break;
                 case 2:
                     score -= 10
-                    if (score > 21){
+                    if (score > 21) {
                         score -= 10;
                     }
                     break;
                 case 3:
                     score -= 20
-                    if (score > 21){
+                    if (score > 21) {
                         score -= 10;
                     }
                     break;
                 case 4:
                     score -= 30
-                    if (score > 21){
+                    if (score > 21) {
                         score -= 10;
                     }
                     break;
@@ -142,7 +142,7 @@ function start() {
     // Event RESTART
     let restart = document.getElementById("restartButton");
     restart.addEventListener("click", (() => {
-        if (!gameModel.player.active){
+        if (!gameModel.player.active) {
             initial();
         }
     }));
@@ -200,11 +200,19 @@ function start() {
         gameModel.dealInitialCards();
 
         if (!reset) {
-            let balance = prompt("Enter the balance you wish to bet, consider that each bet will be $100.");
-            if (isNaN(Number(balance))){
-                balance = 0;
-            }
-            playerBalance = Number(balance);
+            do {
+                playerBalance = prompt("Enter the balance you wish to bet, consider that each bet will be $100.");
+                if (isNaN(Number(playerBalance)) || playerBalance < 100) {
+                    playerBalance = 0;
+                    alert("The balance must be greater than or equal to 100, please re-enter the balance.");
+                }
+            } while (playerBalance < 100)
+        }
+
+        if (playerBalance >= 100) {
+            playerBalance -= bet;
+        } else {
+            initial(false);
         }
 
         setText("result", "Playing...");
@@ -316,14 +324,12 @@ function start() {
     }
 
     // Adding and subtracting balance
-    function winBet(dealerWin = false, blackjack = false){
-        if (blackjack){
-            playerBalance += bet * 1.5;
-        }else{
-            if (dealerWin){
-                playerBalance -= bet;
-            }else{
-                playerBalance += bet;
+    function winBet(dealerWin = false, blackjack = false) {
+        if (blackjack) {
+            playerBalance += bet * 2.5;
+        } else {
+            if (!dealerWin) {
+                playerBalance += bet * 2;
             }
 
         }
