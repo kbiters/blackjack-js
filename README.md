@@ -38,7 +38,7 @@
 
 ## Preview
 
-![Screen Shot](https://imgur.com/4CiSHLM.png)
+![Screen Shot](https://i.imgur.com/hbo9HtU.png)
 
 
 ## Built With
