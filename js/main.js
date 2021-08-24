@@ -14,7 +14,6 @@ class Person {
         this._hand = [];
         this._hiddenCard = [];
         this._active = true;
-        this._balance = 0;
     }
 
     get hand() {
@@ -81,14 +80,6 @@ class Person {
 
     set active(value) {
         this._active = value;
-    }
-
-    get balance() {
-        return this._balance;
-    }
-
-    set balance(value) {
-        this._balance = value;
     }
 }
 
@@ -208,8 +199,6 @@ function start() {
         gameModel.shuffle(4);
         gameModel.dealInitialCards();
 
-        gameModel.dealer.balance = 999999;
-
         if (!reset) {
             let balance = prompt("Enter the balance you wish to bet, consider that each bet will be $100.");
             playerBalance = Number(balance);
@@ -223,7 +212,6 @@ function start() {
         if (gameModel.player.score === 21) {
             checkResult(true);
         }
-
 
         showScore();
     }
@@ -327,14 +315,11 @@ function start() {
     // Adding and subtracting balance
     function winBet(dealerWin = false, blackjack = false){
         if (blackjack){
-            gameModel.dealer.balance -= bet * 1.5;
             playerBalance += bet * 1.5;
         }else{
             if (dealerWin){
-                gameModel.dealer.balance += bet;
                 playerBalance -= bet;
             }else{
-                gameModel.dealer.balance -= bet;
                 playerBalance += bet;
             }
 
@@ -348,7 +333,7 @@ function start() {
         setText("loseDealer", `Lose: ${historyDealer.lose}`);
         setText("winPlayer", `Win: ${historyPlayer.win}`);
         setText("losePlayer", `Lose: ${historyPlayer.lose}`);
-        setText("dealerBalance", `Balance: ${gameModel.dealer.balance} $`);
+        setText("dealerBalance", `Balance: 999999 $`);
         setText("playerBalance", `Balance: ${playerBalance} $`);
     }
 }
