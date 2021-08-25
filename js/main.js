@@ -26,45 +26,23 @@ class Person {
 
     get score() {
         let score = 0;
-        let aceCounter = []
+        let aceCounter = 0;
 
         this.hand.forEach(card => {
-
             score += card.v;
-            if (card.v === 11) {
-                aceCounter.push(true)
-            }
+            aceCounter = (card.v === 11) ? aceCounter += 1 : aceCounter;
 
+            while (score > 21 && aceCounter > 0) {
+                score -= 10;
+                aceCounter -= 1;
+            }
             return score;
         });
 
-        if (score > 21) {
-            switch (aceCounter.length) {
-                case 1:
-                    score -= 10
-                    break;
-                case 2:
-                    score -= 10
-                    if (score > 21) {
-                        score -= 10;
-                    }
-                    break;
-                case 3:
-                    score -= 20
-                    if (score > 21) {
-                        score -= 10;
-                    }
-                    break;
-                case 4:
-                    score -= 30
-                    if (score > 21) {
-                        score -= 10;
-                    }
-                    break;
-            }
-        }
+
         return score;
     }
+
 
     get hiddenCard() {
         return this._hiddenCard;
@@ -88,26 +66,58 @@ class GameModel {
         this.player = new Person();
         this.dealer = new Person();
         this.deck = [
-            {k: "c1", v: 11}, {k: "c2", v: 2}, {k: "c3", v: 3}, {k: "c4", v: 4}, {k: "c5", v: 5}, {k: "c6", v: 6},
-            {k: "c7", v: 7}, {k: "c8", v: 8}, {k: "c9", v: 9}, {k: "c10", v: 10}, {k: "c11", v: 10}, {
-                k: "c12",
-                v: 10
-            }, {k: "c13", v: 10},
-            {k: "h1", v: 11}, {k: "h2", v: 2}, {k: "h3", v: 3}, {k: "h4", v: 4}, {k: "h5", v: 5}, {k: "h6", v: 6},
-            {k: "h7", v: 7}, {k: "h8", v: 8}, {k: "h9", v: 9}, {k: "h10", v: 10}, {k: "h11", v: 10}, {
-                k: "h12",
-                v: 10
-            }, {k: "h13", v: 10},
-            {k: "s1", v: 11}, {k: "s2", v: 2}, {k: "s3", v: 3}, {k: "s4", v: 4}, {k: "s5", v: 5}, {k: "s6", v: 6},
-            {k: "s7", v: 7}, {k: "s8", v: 8}, {k: "s9", v: 9}, {k: "s10", v: 10}, {k: "s11", v: 10}, {
-                k: "s12",
-                v: 10
-            }, {k: "s13", v: 10},
-            {k: "d1", v: 11}, {k: "d2", v: 2}, {k: "d3", v: 3}, {k: "d4", v: 4}, {k: "d5", v: 5}, {k: "d6", v: 6},
-            {k: "d7", v: 7}, {k: "d8", v: 8}, {k: "d9", v: 9}, {k: "d10", v: 10}, {k: "d11", v: 10}, {
-                k: "d12",
-                v: 10
-            }, {k: "d13", v: 10}
+            {k: "c1", v: 11},
+            {k: "c2", v: 2},
+            {k: "c3", v: 3},
+            {k: "c4", v: 4},
+            {k: "c5", v: 5},
+            {k: "c6", v: 6},
+            {k: "c7", v: 7},
+            {k: "c8", v: 8},
+            {k: "c9", v: 9},
+            {k: "c10", v: 10},
+            {k: "c11", v: 10},
+            {k: "c12", v: 10},
+            {k: "c13", v: 10},
+            {k: "h1", v: 11},
+            {k: "h2", v: 2},
+            {k: "h3", v: 3},
+            {k: "h4", v: 4},
+            {k: "h5", v: 5},
+            {k: "h6", v: 6},
+            {k: "h7", v: 7},
+            {k: "h8", v: 8},
+            {k: "h9", v: 9},
+            {k: "h10", v: 10},
+            {k: "h11", v: 10},
+            {k: "h12", v: 10},
+            {k: "h13", v: 10},
+            {k: "s1", v: 11},
+            {k: "s2", v: 2},
+            {k: "s3", v: 3},
+            {k: "s4", v: 4},
+            {k: "s5", v: 5},
+            {k: "s6", v: 6},
+            {k: "s7", v: 7},
+            {k: "s8", v: 8},
+            {k: "s9", v: 9},
+            {k: "s10", v: 10},
+            {k: "s11", v: 10},
+            {k: "s12", v: 10},
+            {k: "s13", v: 10},
+            {k: "d1", v: 11},
+            {k: "d2", v: 2},
+            {k: "d3", v: 3},
+            {k: "d4", v: 4},
+            {k: "d5", v: 5},
+            {k: "d6", v: 6},
+            {k: "d7", v: 7},
+            {k: "d8", v: 8},
+            {k: "d9", v: 9},
+            {k: "d10", v: 10},
+            {k: "d11", v: 10},
+            {k: "d12", v: 10},
+            {k: "d13", v: 10}
         ];
     }
 
@@ -129,7 +139,6 @@ class GameModel {
 
         }
     }
-
 }
 
 
