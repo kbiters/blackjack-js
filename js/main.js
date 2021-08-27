@@ -1,60 +1,5 @@
 let hiddenCard;
 
-// Player Model
-class Person {
-
-    // Constructor
-    constructor() {
-        this._hand = [];
-        this._hiddenCard = [];
-        this._active = true;
-    }
-
-    get hand() {
-        return this._hand;
-    }
-
-    set hand(card) {
-        this._hand.push(card);
-    }
-
-    get score() {
-        let score = 0;
-        let aceCounter = 0;
-
-        this.hand.forEach(card => {
-            score += card.v;
-            aceCounter = (card.v === ACE_VALUE) ? aceCounter += 1 : aceCounter;
-
-            while (score > MAX_VALUE && aceCounter > 0) {
-                score -= 10;
-                aceCounter -= 1;
-            }
-            return score;
-        });
-
-
-        return score;
-    }
-
-
-    get hiddenCard() {
-        return this._hiddenCard;
-    }
-
-    set hiddenCard(card) {
-        this._hiddenCard.push(card);
-    }
-
-    get active() {
-        return this._active;
-    }
-
-    set active(value) {
-        this._active = value;
-    }
-}
-
 class GameModel {
     constructor() {
         this.player = new Person();
@@ -181,14 +126,12 @@ function start() {
 
         if (blackjack) {
             gameModel.player.active = false;
-            hiddenCard = gameModel.dealer.hiddenCard.pop()
-            gameModel.dealer.hand.push(hiddenCard)
-            cardVisualizer(gameModel.dealer)
-            HISTORY_PLAYER.win += 1;
-            HISTORY_DEALER.lose += 1;
+            hiddenCard = gameModel.dealer.hiddenCard.pop();
+            gameModel.dealer.hand.push(hiddenCard);
+            cardVisualizer(gameModel.dealer);
             winBet(false, true);
             setText(RESULT_ID, BLACK_JACK);
-            showScore()
+            showScore();
             return
         }
 
@@ -211,15 +154,11 @@ function start() {
         // SHOW TEXT
         if (!(gameModel.player.active)) {
             if (dealerWin) {
-                setText(RESULT_ID, DEALER_WIN)
-                HISTORY_DEALER.win += 1;
-                HISTORY_PLAYER.lose += 1;
+                setText(RESULT_ID, DEALER_WIN);
                 winBet(true, false);
                 showScore();
             } else {
-                setText(RESULT_ID, PLAYER_WIN)
-                HISTORY_PLAYER.win += 1;
-                HISTORY_DEALER.lose += 1;
+                setText(RESULT_ID, PLAYER_WIN);
                 winBet(false, false);
                 showScore();
             }
@@ -275,11 +214,14 @@ function start() {
     function winBet(dealerWin = false, blackjack = false) {
         if (blackjack) {
             PLAYER_BALANCE += BET_VALUE * 2.5;
+            HISTORY_PLAYER.win += 1; HISTORY_DEALER.lose += 1;
         } else {
             if (!dealerWin) {
+                HISTORY_PLAYER.win += 1; HISTORY_DEALER.lose += 1;
                 PLAYER_BALANCE += BET_VALUE * 2;
+            } else{
+                HISTORY_DEALER.win += 1; HISTORY_PLAYER.lose += 1;
             }
-
         }
     }
 
