@@ -237,5 +237,5 @@ modules.xml
 ### WebStorm+iml Patch ###
 # Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-249601023
 
-
-# End of https://www.toptal.com/developers/gitignore/api/webstorm,webstorm+all,webstorm+iml,visualstudiocode
+# Linter Config
+.prettierrc
