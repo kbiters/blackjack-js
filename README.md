@@ -48,6 +48,7 @@ The dealer has one card visible to the player and the other card is not shown. B
 of either hitting or standing. 
 - Hit:  When the player hits, it means that they ask for a card.
 - Stand: To stand means that the player is content with their cards/total and want to stay at that total.
+
 The player can hit as many times as they want as long as they don't go above 21.
 Once the player is done, the dealer reveals their hand and either hits or stands.
 There are different ways for a player to win a round of blackjack:
@@ -55,6 +56,7 @@ There are different ways for a player to win a round of blackjack:
 - The player achieves 21 from hitting and the dealer does not get 21.
 - The player stands and gets a higher high hand(score) than the dealer.
 - The player stands and the dealer busts(their hand goes over 21).
+
 The player loses if:
 - Their hand goes over 21
 - The dealer gets a higher hand than them
